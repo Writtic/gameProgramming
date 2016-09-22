@@ -6,6 +6,21 @@ struct Pred{
     return 10 <= n && n <= 30;
   }
 };
+struct Pred2{
+  int ddd;
+  bool operator() (int n) {
+    return 10 <= n && n <= ddd;
+  }
+};
+struct Pred3{
+  int max;
+  Pred3(int m) {
+    max = m;
+  }
+  bool operator() (int n) {
+    return 10 <= n && n <= max;
+  }
+};
 bool Predicate(int n) // 단항 조건자
 {
     return 10 <= n &&  n <= 30;
@@ -39,9 +54,19 @@ int main( )
     for(iter = lt.begin(); iter != lt.end(); ++iter)
         cout << *iter << ' ';
     cout << endl;
-
     // lt.remove_if(Predicate); // 조건자(함수도 가능)가 참인 모든 원소를 제거합니다.
-    lt.remove_if(Pred());
+    lt.remove_if(Pred()); // Pred()의 괄호가 operator()의 괄호와 같지 않다.
+                          // Pred()의 괄호는 생성자의 괄호다!
+    struct Pred ttt = Pred(); // <- 여기의 생성자, functor는 좀 특이하군요!
+    lt.remove_if(ttt);
+
+    struct Pred2 ttt2; // 이렇게도 가능
+    ttt2.ddd = 100;
+    lt.remove_if(ttt2);
+
+    struct Pred3 ttt3 = Pred3(100);
+    lt.remove_if(ttt3);
+
     for(iter = lt.begin(); iter != lt.end(); ++iter)
         cout << *iter << ' ';
     cout << endl;

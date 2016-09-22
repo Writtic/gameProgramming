@@ -2,7 +2,7 @@
 #include <set>
 using namespace std;
 
-void main( )
+int main( )
 {
     set<int> s;
 
@@ -13,7 +13,7 @@ void main( )
     s.insert(10);
     s.insert(70);
     s.insert(90);
-    
+
     set<int>::iterator iter;
     for( iter = s.begin() ; iter != s.end() ; ++iter)
         cout << *iter << " ";
@@ -22,27 +22,27 @@ void main( )
     set<int>::iterator iter_lower;
     set<int>::iterator iter_upper;
 
-    iter_lower = s.lower_bound(30); 
-    iter_upper = s.upper_bound(30); 
+    iter_lower = s.lower_bound(30);
+    iter_upper = s.upper_bound(30);
     cout << *iter_lower << endl;
     cout << *iter_upper << endl;
 
-    iter_lower = s.lower_bound(55); 
-    iter_upper = s.upper_bound(55); 
+    iter_lower = s.lower_bound(55);
+    iter_upper = s.upper_bound(55);
     if( iter_lower != iter_upper)
-        cout << "55°¡ s¿¡ ÀÖÀ½!" << endl;
+        cout << "55ê°€ sì— ìˆìŒ!" << endl;
     else
-        cout << "55°¡ s¿¡ ¾øÀ½!" << endl;
-	
-    pair<set<int>::iterator, set<int>::iterator> iter_pair; //¹İº¹ÀÚ ½ÖÀÇ pair °´Ã¼
+        cout << "55ê°€ sì— ì—†ìŒ!" << endl;
+    pair<set<int>::iterator, set<int>::iterator> iter_pair; //ë°˜ë³µì ìŒì˜ pair ê°ì²´
 
-    iter_pair = s.equal_range(30); 
+    iter_pair = s.equal_range(30); //upper, lower í•œêº¼ë²ˆì— í˜¸ì¶œ!
     cout << *iter_pair.first << endl;
     cout << *iter_pair.second << endl;
 
-    iter_pair = s.equal_range(55); 
-    if( iter_pair.first != iter_pair.second)
-        cout << "55°¡ s¿¡ ÀÖÀ½!" << endl;
+    iter_pair = s.equal_range(55);
+    if( iter_pair.first != iter_pair.second )
+        cout << "55ê°€ sì— ìˆìŒ!" << endl;
     else
-        cout << "55°¡ s¿¡ ¾øÀ½!" << endl;
+        cout << "55ê°€ sì— ì—†ìŒ!" << endl;
+
 }

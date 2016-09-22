@@ -1,0 +1,4 @@
+/Users/writtic/Documents/repository/gameProgramming/ch-02/ch-02-15.cpp:32:26: error: use of undeclared identifier 'i'
+    cout << (!s.key_comp(i)(30, 50) && !s.key_comp()(50,30)) << endl; //다르다
+                         ^
+1 error generated.

@@ -1,12 +1,14 @@
 #include <iostream>
 #include <list>
 using namespace std;
+// í•œë²ˆ í•´ë³´ì‹œê¸¸...
+// í¬ì•ˆí•˜ê±°ë‚˜ ê·¸ëŸ°ê±´ ì—†ì–´ìš©
 
-void main( )
+int main( )
 {
     list<int> lt1;
     list<int> lt2;
-    
+
     lt1.push_back(20);
     lt1.push_back(10);
     lt1.push_back(50);
@@ -28,14 +30,15 @@ void main( )
     for(iter = lt2.begin(); iter != lt2.end(); ++iter)
         cout << *iter << ' ';
     cout << endl << "===============" << endl;
-	
-    lt1.sort( ); // ¿À¸§Â÷¼ø( less, < ¿¬»ê) Á¤·Ä
+
+    lt1.sort( ); // ì˜¤ë¦„ì°¨ìˆœ( less, < ì—°ì‚°) ì •ë ¬
     cout << "lt1: ";
     for(iter = lt1.begin(); iter != lt1.end(); ++iter)
         cout << *iter << ' ';
     cout << endl << "===============" << endl;
+    lt1.merge(lt2); // lt2ë¥¼ lt1ìœ¼ë¡œ í•©ë³‘ ì •ë ¬í•©ë‹ˆë‹¤. ì •ë ¬ ê¸°ì¤€ì€ less
+                    // lt2ëŠ” merge í›„ í……í…… ë¹„ê²Œ ëœë‹¤. ì›ë³¸ì´ ì‚¬ë¼ì§!
 
-    lt1.merge(lt2); // lt2¸¦ lt1À¸·Î ÇÕº´ Á¤·ÄÇÕ´Ï´Ù. Á¤·Ä ±âÁØÀº less
 
     cout << "lt1: ";
     for(iter = lt1.begin(); iter != lt1.end(); ++iter)
