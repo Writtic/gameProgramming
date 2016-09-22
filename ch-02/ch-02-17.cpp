@@ -2,10 +2,11 @@
 #include <map>
 using namespace std;
 
-void main( )
-{  
+int main( )
+{
     map<int,int> m;
-    
+    // í‚¤ ì¤‘ë³µ ë¶ˆê°€
+    // ê°™ì€ í‚¤ì— ë‹¤ë¥¸ ê°’ì„ ë„£ìœ¼ë©´ ë‚˜ì¤‘ê°’ìœ¼ë¡œ ë®ì–´ì”Œì›€.
     m[5] = 100;
     m[3] = 100;
     m[8] = 30;
@@ -13,31 +14,33 @@ void main( )
     m[1] = 70;
     m[7] = 100;
     m[9] = 50;
+    m[5] = 200;
 
     map<int,int>::iterator iter;
     for( iter = m.begin() ; iter != m.end() ; ++iter)
         cout <<"("<< iter->first <<',' << iter->second <<")" <<" ";
     cout << endl;
 
-    iter = m.find( 5 );
+    iter = m.find( 5 ); // keyê°’ì´ ê¸°ì¤€
     if( iter != m.end() )
-        cout << "key 5¿¡ ¸ÅÇÎµÈ value: " << iter->second << endl;
+        cout << "key 5ì— ë§¤í•‘ëœ value: " << iter->second << endl;
 
     map<int,int>::iterator lower_iter;
     map<int,int>::iterator upper_iter;
     lower_iter = m.lower_bound(5);
     upper_iter = m.upper_bound(5);
 
-    cout <<"±¸°£ [lower_iter, upper_iter)ÀÇ ¼øÂ÷¿­: "; 
+    cout <<"êµ¬ê°„ [lower_iter, upper_iter)ì˜ ìˆœì°¨ì—´: ";
     for( iter = lower_iter ; iter != upper_iter ; ++iter)
         cout << "(" << iter->first <<',' << iter->second <<") ";
     cout << endl;
 
     pair<map<int,int>::iterator, map<int,int>::iterator> iter_pair;
-    iter_pair = m.equal_range(5);
+    iter_pair = m.equal_range(5); // setê³¼ ë˜‘ê°™ì€ ê¸°ëŠ¥
 
-    cout <<"±¸°£ [iter_pair.first, iter_pair.second)ÀÇ ¼øÂ÷¿­: "; 
+    cout <<"êµ¬ê°„ [iter_pair.first, iter_pair.second)ì˜ ìˆœì°¨ì—´: ";
     for( iter = iter_pair.first ; iter != iter_pair.second ; ++iter)
         cout << "(" << iter->first <<',' << iter->second <<") ";
     cout << endl;
+
 }

@@ -3,9 +3,9 @@
 #include <list>
 using namespace std;
 
-void main( )
+int main( )
 {
-    queue<int, list<int> > q; //¸®½ºÆ®¸¦ »ç¿ëÇÏ´Â queue »ı¼º
+    queue<int, list<int> > q; //ë¦¬ìŠ¤íŠ¸ë¥¼ ì‚¬ìš©í•˜ëŠ” queue ìƒì„±
 
     q.push(10);
     q.push(20);

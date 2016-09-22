@@ -2,7 +2,7 @@
 #include <stack>
 using namespace std;
 
-void main( )
+int main( )
 {
     stack<int> st;
 
