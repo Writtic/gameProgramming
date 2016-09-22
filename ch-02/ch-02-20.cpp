@@ -3,9 +3,14 @@
 #include <deque>
 using namespace std;
 
-void main( )
+struct Point{
+  int x, y;
+  
+};
+
+int main( )
 {
-    priority_queue<int> pq1; // ±âº»ÄÁÅ×ÀÌ³Ê vector<int>, ±âº»Á¤·Ä±âÁØ less
+    priority_queue<int> pq1; // ê¸°ë³¸ì»¨í…Œì´ë„ˆ vector<int>, ê¸°ë³¸ì •ë ¬ê¸°ì¤€ less
     pq1.push(40);
     pq1.push(20);
     pq1.push(30);
@@ -19,8 +24,8 @@ void main( )
         pq1.pop();
     }
     cout <<"================" << endl;
-     
-    priority_queue<int, deque<int>, greater<int> > pq2;
+
+    priority_queue<int, deque<int>, greater<int> /*functor*/ > pq2;
     pq2.push(40);
     pq2.push(20);
     pq2.push(30);
