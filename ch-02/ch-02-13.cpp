@@ -1,12 +1,16 @@
 #include <iostream>
 #include <list>
 using namespace std;
-
-bool Predicate(int n) // ´ÜÇ× Á¶°ÇÀÚ
+struct Pred{
+  bool operator() (int n) {
+    return 10 <= n && n <= 30;
+  }
+};
+bool Predicate(int n) // ë‹¨í•­ ì¡°ê±´ì
 {
     return 10 <= n &&  n <= 30;
 }
-void main( )
+int main( )
 {
     list<int> lt;
     list<int> lt2;
@@ -16,36 +20,36 @@ void main( )
     lt.push_back(30);
     lt.push_back(10);
     lt.push_back(40);
-    lt.push_back(50);
+    lt.push_back(60);
     lt.push_back(10);
     lt.push_back(10);
-    
+
     lt2.push_back(50);
     lt2.push_back(300);
     lt2.push_back(300);
     lt2.push_back(300);
     lt2.push_back(500);
-    
-    list<int>::iterator iter;    
+
+    list<int>::iterator iter;
     for(iter = lt.begin(); iter != lt.end(); ++iter)
         cout << *iter << ' ';
     cout << endl;
 
-    lt.remove(10); // 10 ¿ø¼ÒÀÇ ³ëµå¸¦ ¸ğµÎ Á¦°Å
+    lt.remove(10); // 10 ì›ì†Œì˜ ë…¸ë“œë¥¼ ëª¨ë‘ ì œê±°
     for(iter = lt.begin(); iter != lt.end(); ++iter)
         cout << *iter << ' ';
     cout << endl;
-	
-    lt.remove_if(Predicate); // Á¶°ÇÀÚ°¡ ÂüÀÎ ¸ğµç ¿ø¼Ò¸¦ Á¦°ÅÇÕ´Ï´Ù.
+
+    // lt.remove_if(Predicate); // ì¡°ê±´ì(í•¨ìˆ˜ë„ ê°€ëŠ¥)ê°€ ì°¸ì¸ ëª¨ë“  ì›ì†Œë¥¼ ì œê±°í•©ë‹ˆë‹¤.
+    lt.remove_if(Pred());
     for(iter = lt.begin(); iter != lt.end(); ++iter)
         cout << *iter << ' ';
     cout << endl;
-	
+
     iter = lt.begin();
-    ++iter;
-    ++iter; // 30 ¿ø¼ÒÀÇ À§Ä¡¸¦ °¡¸®Å´
+    ++iter; // 60 ì›ì†Œì˜ ìœ„ì¹˜ë¥¼ ê°€ë¦¬í‚´
 
-    lt.splice(iter, lt2); //iter°¡ °¡¸®Å°´Â À§Ä¡¿¡ lt2ÀÇ ¸ğµç ¿ø¼Ò¸¦ Àß¶ó ºÙÀÓ
+    lt.splice(iter, lt2); //iterê°€ ê°€ë¦¬í‚¤ëŠ” ìœ„ì¹˜ì— lt2ì˜ ëª¨ë“  ì›ì†Œë¥¼ ì˜ë¼ ë¶™ì„
 
     cout << "lt: ";
     for(iter = lt.begin(); iter != lt.end(); ++iter)
@@ -56,7 +60,7 @@ void main( )
     for(iter = lt2.begin(); iter != lt2.end(); ++iter)
         cout << *iter << ' ';
     cout << endl;
-	
+
     lt.unique();
     for(iter = lt.begin(); iter != lt.end(); ++iter)
         cout << *iter << ' ';
