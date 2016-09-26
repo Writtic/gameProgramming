@@ -1,6 +1,5 @@
 #include <iostream>
 #include <vector>
-#include <deque>
 #include <algorithm>
 using namespace std;
 
@@ -15,7 +14,7 @@ int main( )
     v1.push_back(20);
     v1.push_back(30);
 
-    deque<int> v2;
+    vector<int> v2;
     v2.push_back(10);
     v2.push_back(20);
     v2.push_back(30);
@@ -46,6 +45,7 @@ int main( )
     if( equal(v1.begin(), v1.end(), v2.begin()) )
     // 갯수에서 몇개를 비교할건지 v1이 결정하므로 v2.end()가 필요없다.
         cout << "두 순차열은 같습니다." << endl;
+    // 각각의 이터레이터안의 원소를 출력
     for_each(v2.begin(), v2.begin()+3, Print);
     cout << endl;
     for_each(v2.begin(), v2.begin()+6, Print);
@@ -54,7 +54,7 @@ int main( )
     for_each(v2.begin(), v2.end(), Print);
     cout << endl;
 
-    deque<int>::iterator iter;
+    vector<int>::iterator iter;
     iter = search(v2.begin(), v2.end(), v3.begin(), v3.end());
     if( iter != v2.end() )
     {

@@ -7,7 +7,7 @@ bool Pred(int n)
 {
     return n < 40;
 }
-void main( )
+int main( )
 {
     vector<int> v;
     v.push_back(30);
@@ -23,19 +23,19 @@ void main( )
     cout << endl;
 
     vector<int>::iterator iter_sep;
-    // 40 ¿ø¼Ò¸¦ ±âÁØÀ¸·Î ¹Ì¸¸°ú ÀÌ»óÀ» ºĞ·ùÇÑ´Ù.
+    // 40 ì›ì†Œë¥¼ ê¸°ì¤€ìœ¼ë¡œ ë¯¸ë§Œê³¼ ì´ìƒì„ ë¶„ë¥˜í•œë‹¤.
     iter_sep = partition(v.begin(), v.end(), Pred);
 
-    cout <<"40¹Ì¸¸ÀÇ ¼øÂ÷¿­: ";
+    cout <<"40ë¯¸ë§Œì˜ ìˆœì°¨ì—´: ";
     for(vector<int>::iterator iter=v.begin(); iter != iter_sep; ++iter)
         cout << *iter <<" ";
     cout << endl;
-    cout <<"40ÀÌ»óÀÇ ¼øÂ÷¿­: ";
+    cout <<"40ì´ìƒì˜ ìˆœì°¨ì—´: ";
     for(vector<int>::iterator iter=iter_sep; iter != v.end(); ++iter)
         cout << *iter <<" ";
     cout << endl;
-	
-    // [v.begin(), v.end()) ¼øÂ÷¿­ µÚÁı±â.
+
+    // [v.begin(), v.end()) ìˆœì°¨ì—´ ë’¤ì§‘ê¸°.
     reverse(v.begin(), v.end());
     cout << "reverse v : ";
     for(vector<int>::size_type i = 0; i < v.size(); ++i)

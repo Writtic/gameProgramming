@@ -3,7 +3,7 @@
 #include <algorithm>
 using namespace std;
 
-void main( )
+int main( )
 {
     vector<int> v1;
     v1.push_back(10);
@@ -11,21 +11,22 @@ void main( )
     v1.push_back(30);
     v1.push_back(40);
     v1.push_back(50);
-	
-    vector<int> v2; 
+
+    vector<int> v2;
     v2.push_back(11);
     v2.push_back(22);
     v2.push_back(33);
     v2.push_back(44);
     v2.push_back(55);
 
-    vector<int> v3(5); //size 5ÀÎ vector »ı¼º
+    vector<int> v3(5); //size 5ì¸ vector ìƒì„±
 
     vector<int>::iterator iter;
-    // ±¸°£ [v1.begin(), v1.end())ÀÇ ¸ğµç ¿ø¼Ò¸¦ [v2.begin(), iter)ÀÇ ¼øÂ÷¿­·Î º¹»ç.
+    // êµ¬ê°„ [v1.begin(), v1.end())ì˜ ëª¨ë“  ì›ì†Œë¥¼ [v2.begin(), iter)ì˜ ìˆœì°¨ì—´ë¡œ ë³µì‚¬.
+
     iter = copy(v1.begin(), v1.end(), v3.begin());
-    cout <<"v3 ¸¶Áö¸· ¿ø¼Ò: " << *(iter-1) << endl;
-    
+    cout <<"v3 ë§ˆì§€ë§‰ ì›ì†Œ: " << *(iter-1) << endl;
+
     cout << "v1 : ";
     for(vector<int>::size_type i = 0; i < v1.size(); ++i)
         cout << v1[i] <<" ";
@@ -34,7 +35,7 @@ void main( )
     for(vector<int>::size_type i = 0; i < v3.size(); ++i)
         cout << v3[i] <<" ";
     cout <<endl << endl;
-	
+
 
     cout << "v1 : ";
     for(vector<int>::size_type i = 0; i < v1.size(); ++i)
