@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <deque>
 #include <algorithm>
 using namespace std;
 
@@ -14,7 +15,7 @@ int main( )
     v1.push_back(20);
     v1.push_back(30);
 
-    vector<int> v2;
+    deque<int> v2;
     v2.push_back(10);
     v2.push_back(20);
     v2.push_back(30);
@@ -53,7 +54,7 @@ int main( )
     for_each(v2.begin(), v2.end(), Print);
     cout << endl;
 
-    vector<int>::iterator iter;
+    deque<int>::iterator iter;
     iter = search(v2.begin(), v2.end(), v3.begin(), v3.end());
     if( iter != v2.end() )
     {
