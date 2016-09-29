@@ -59,7 +59,7 @@ void renderScene(void)
 	printf("elapsed Time = %d (%f)\n", TotalElapsedTime, cT);
 	angle_s = cT*6.0;
 	angle_m = (cT/60)*6.0;
-	angle_h = (cT/3600)*6.0;
+	angle_h = (cT/3600)*30.0;
 
 	glLoadIdentity();
 	gluLookAt(0.0,0.0,5.0, 0.0,0.0,-1.0, 0.0f,1.0f,0.0f);
