@@ -26,3 +26,15 @@ Chapter 06
 ----------
 OpenGL - Keyframe Interpolation<br>
 <sub>OpenGL - 키 프레임 보간법</sub>
+
+**제어점 변경을 통한 곡선 변화**
+전역적 제어
+- 하나의 제어점을 움직이면 전체 곡선이 변함
+지역적 제어(사용자가 선호)
+- 하나의 제어점을 움직이면 제어점 근처의 곡선 일부만 변함
+
+삼차 곡선(cubic spline)이 실무에 많이 쓰이며
+
+이를 위해 Catmull-Rom spline 가 쓰임.
+
+Catmull-Rom spline : 
