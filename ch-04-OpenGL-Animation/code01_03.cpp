@@ -2,7 +2,10 @@
 //
 #include <stdio.h>
 #include <stdlib.h>
-#include <GL/glut.h>
+// for Window
+// #include <GL/glut.h>
+// for Mac
+#include <GLUT/glut.h>
 #include <time.h>
 #include <math.h>
 
