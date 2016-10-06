@@ -37,4 +37,4 @@ OpenGL - Keyframe Interpolation<br>
 
 이를 위해 Catmull-Rom spline 가 쓰임.
 
-Catmull-Rom spline : 
+Catmull-Rom spline : 좌우 꼭지점의 기울기 값의 평균이 사잇꼭지점의 기울기 값
