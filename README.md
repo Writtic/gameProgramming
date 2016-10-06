@@ -21,3 +21,8 @@ Chapter 04
 ----------
 OpenGL - Animation<br>
 <sub>OpenGL - 애니메이션</sub>
+
+Chapter 06
+----------
+OpenGL - Keyframe Interpolation<br>
+<sub>OpenGL - 키 프레임 보간법</sub>
