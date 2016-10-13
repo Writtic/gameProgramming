@@ -112,3 +112,8 @@ S(u) = B0 + B1u + B2u2 + B3u3 (단 Bi는 계수)
 - 미분 연속조건을 이용한다.
     - P’1 = a(P2-P0)		: Cardinal spline
     - 일반적으로 a=0.5		: Catmull-Rom spline
+
+Chapter 07
+----------
+OpenGL - Keyframe Interpolation<br>
+<sub>OpenGL - 키 프레임 보간법</sub>
