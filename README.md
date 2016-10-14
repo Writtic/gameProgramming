@@ -115,5 +115,5 @@ S(u) = B0 + B1u + B2u2 + B3u3 (단 Bi는 계수)
 
 Chapter 07
 ----------
-OpenGL - Keyframe Interpolation<br>
-<sub>OpenGL - 키 프레임 보간법</sub>
+OpenGL - Collision<br>
+<sub>OpenGL - 충돌</sub>
