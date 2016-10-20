@@ -105,6 +105,27 @@ void PhysicalObj::Move(float current)
    BoundCheck();
 
 }
+// 흐른시간 dt 에 대한 처리
+/*
+void PhysicalObj::Move(float current, float dt)
+{
+   // 흐른시간과 속도에 따라 이동
+   if(current == -1) { // defafult
+      // p' = p + v * t(매번 단위시간이 1초씩 움직인다고 가정하면 t 생략)
+      // 오차를 줄이기위한 0.5f를 가속도에 곱함
+      p.m[0] += v.m[0]*dt + 0.5f*a.m[0]*dt*dt; // 오차를 줄이기위한 *dt*dt
+      p.m[1] += v.m[1]*dt + 0.5f*a.m[1]*dt*dt;
+      p.m[2] += v.m[2]*dt + 0.5f*a.m[2]*dt*dt;
+
+      v.m[0] += a.m[0]*dt;
+      v.m[1] += a.m[1]*dt;
+      v.m[2] += a.m[2]*dt;
+   }
+
+   BoundCheck();
+
+}
+*/
 
 void PhysicalObj::Collision(PhysicalObj *target)
 {
