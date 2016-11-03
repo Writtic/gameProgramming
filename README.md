@@ -1,6 +1,5 @@
 Game Programming with C++ STL
 ============================
-This is a Lecture on 2nd Semester of Senior of Univ.
 
 Chapter 01
 ----------
