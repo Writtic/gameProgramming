@@ -165,10 +165,59 @@ S(u) = B0 + B1u + B2u2 + B3u3 (단 Bi는 계수)
 각 위치에서 P’n을 구하는 방법
 - 임의로 대입한다.
 - 미분 연속조건을 이용한다.
-    - P’1 = a(P2-P0)		: Cardinal spline
+    - P’1 = a(P2-P0)    : Cardinal spline
     - 일반적으로 a=0.5		: Catmull-Rom spline
 
 Chapter 07
 ----------
 OpenGL - Collision<br>
 <sub>OpenGL - 충돌</sub>
+
+#### 운동량 보존
+운동량 = 물체의 질량(m) x 물체의 속도(v)
+
+충돌
+- 두 물체가 부딪는 현상
+- 작용 반작용의 원리에 의해 운동량을 교환
+
+운동량 보존
+- 두 물체의 운동량의 합은 충돌 전후 변하지 않는다.
+
+#### 완전 탄성 충돌
+
+충돌 전후 운동에너지의 합이 변하지 않는 경우
+- 당구공, 기체분자 등
+
+설정
+- 주어진 물체의 질량 m1, m2,
+- 주어진 충돌 전 물체의 속도 u1, u2
+- 구하려는 충돌 후 물체의 속도 v1, v2
+
+연립 방정식 (운동량, 에너지 보존)
+- m<sub>1</sub>xu<sub>1</sub> + m<sub>2</sub>xu<sub>2</sub> = m<sub>1</sub>xv<sub>1</sub> + m<sub>2</sub>xv<sub>2</sub>
+- ½m<sub>1</sub>xu<sub>1</sub><sup>2</sup> + ½m<sub>2</sub>xu<sub>2</sub><sup>2</sup> = ½m<sub>1</sub>xv<sub>1</sub><sup>2</sup> ½m<sub>2</sub>xv<sub>2</sub><sup>2</sup>
+
+#### 같은 질량 입자의 충돌
+
+두 물체의 질량 m1 = m2 = m
+- 두 물체의 속도가 교환됨
+
+#### 평면 또는 공간상의 충돌
+
+충돌에서 운동량 교환은 중심선(d) 방향으로 발생
+- u1 = <U>**d1**</U> + t1
+- u2 = <U>**d2**</U> + t2
+
+충돌 후
+- v1 = <U>**d2**</U> + t1
+- v2 = <U>**d1**</U> + t2
+
+#### 당구공의 충돌 코드
+```
+Vec d1 = (u1 · d) d
+Vec t1 = u1 – d1
+Vec d2 = (u2 · d) d
+Vec t2 = u2 – d2
+Vec v1 = d2 + t1
+Vec v2 = d1 + t2
+```
