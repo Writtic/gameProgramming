@@ -81,7 +81,7 @@ int _tmain(int argc, _TCHAR* argv[])
 				child[i].Print();
 				exit(0);
 			}
-			//
+			// 중복확인을 위한 set
 			set<State, Pred>::iterator iter = CLOSE.find( child[i] );
 			if ( CLOSE.end() == iter ) { // 새로 발견된 자식
 				OPEN.push(child[i]);
