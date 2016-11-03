@@ -117,3 +117,50 @@ Chapter 07
 ----------
 OpenGL - Collision<br>
 <sub>OpenGL - 충돌</sub>
+
+Chapter 08
+----------
+OpenGL - Kinematics<br>
+<sub>OpenGL - 운동학</sub>
+
+힘을 고려하지 않는 움직임을 연구하는 학문
+- F = ma  (X)
+- X = f(t) (O)
+
+물체를 구성하는 뼈대를 움직여서 움직임을 구현함
+- 힘이 무시되어 있으므로 부자연스러움
+- 수식을 매우 정교하게 적용하여 극복
+
+#### 계층적 모델
+물체는 뼈대와 관절로 구성되어 있다고 가정
+- 뼈대는 움직이지 못함
+- 관절(joint)을 중심으로 움직임이 발생
+
+인체 모형도 뼈대와 관절로 구성됨
+
+#### 운동학의 종류
+Forward Kinematics: (p, q) = F(θ<sub>i</sub>)
+
+Inverse Kinematics: θ<sub>i</sub> = F<sup>-1</sup>(p, q)
+
+#### Joint Link 변환
+
+물체 중심(기준)으로부터 말단으로 진행하며 변환이 추가됨
+- 전체 변환은 경로를 따른 모든 변환의 곱
+
+실제 모델의 경우
+- Joint에서도 거리 변환이 있으며 Link도 회전 변환이 있을 수 있다.
+
+#### 물체의 계층 표현
+이전 단계에서 다음 단계로 진행
+- 변환(행렬)의 곱으로 표시
+
+#### 물체의 계층 표현
+Tree 자료구조
+- Node로서 Joint 변환을 표시
+- Arc로서 Link 변환을 표시
+
+#### 말단 구조를 그릴 때
+- 좌표와  각도 필요
+- 깊이 우선 탐색 (depth first traversal)
+- 참고) OpenGL의 matrix stack
