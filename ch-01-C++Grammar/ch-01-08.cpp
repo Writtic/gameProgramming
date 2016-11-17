@@ -8,6 +8,7 @@ void Print(int n)
     cout <<"전역 함수: "<< n << endl;
 }
 // 그래서 따로 그룹핑을 해서 각기 다른 프린트를 사용할 수 있게 됨.
+// namespace = grouping
 namespace A
 {
     void Print(int n)

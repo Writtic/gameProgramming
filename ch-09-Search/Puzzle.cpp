@@ -1,7 +1,6 @@
 // Puzzle.cpp : Defines the entry point for the console application.
 //
 
-#include "stdafx.h"
 #include <list>
 #include <vector>
 class State {
@@ -32,8 +31,9 @@ public:
 		printf("%d %d %d\n", num[3], num[4], num[5]);
 		printf("%d %d %d\n\n", num[6], num[7], num[8]);
 	}
-	// 1,2,3,4,5,6,7,8,0 ¼ø¼­¿¡¼­ ¹ş¾î³¯¶§ ¸¶´Ù 1Á¡¾¿ Ãß°¡µÊ
+	// 1,2,3,4,5,6,7,8,0 ìˆœì„œì—ì„œ ë²—ì–´ë‚ ë•Œ ë§ˆë‹¤ 1ì ì”© ì¶”ê°€ë¨
 	int CalcF() {
+		// í‰ê°€í•¨ìˆ˜
 		_f = 0;
 		for (int i = 0; i < 8; i++) {
 			if (num[i] != i + 1) _f++;
@@ -41,7 +41,7 @@ public:
 		if (num[8] != 0) _f++;
 		return _f;
 	}
-	// µÎ °³ÀÇ ¼ıÀÚ ¼ø¼­°¡ µ¿ÀÏÇÑÁö ÆÇ´Ü
+	// ë‘ ê°œ ìƒíƒœì˜ ìˆ«ì ìˆœì„œê°€ ë™ì¼í•œì§€ íŒë‹¨
 	bool IsSame(const State &s) const {
 		for (int i = 0; i < 9; i++) {
 			if (num[i] != s.num[i])
@@ -49,7 +49,7 @@ public:
 		}
 		return true;
 	}
-	// ÀÌµ¿
+	// ì´ë™
 	bool UP(State &res) {
 		if (_i <= 2) return false;
 		res = *this;
@@ -83,7 +83,7 @@ public:
 		return true;
 	}
 };
-// list¿¡ ÀÌ¹Ì µ¿ÀÏÇÑ »óÅÂ°¡ Á¸ÀçÇÏ´ÂÁö °Ë»ç
+// listì— ì´ë¯¸ ë™ì¼í•œ ìƒíƒœê°€ ì¡´ì¬í•˜ëŠ”ì§€ ê²€ì‚¬
 bool IsInList(const State &s, const std::list<State> &list)
 {
 	for (std::list<State>::const_iterator it = list.begin(); it != list.end(); ++it) {
@@ -92,7 +92,7 @@ bool IsInList(const State &s, const std::list<State> &list)
 	}
 	return false;
 }
-// vector¿¡ ÀÌ¹Ì µ¿ÀÏÇÑ »óÅÂ°¡ Á¸ÀçÇÏ´ÂÁö °Ë»ç
+// vectorì— ì´ë¯¸ ë™ì¼í•œ ìƒíƒœê°€ ì¡´ì¬í•˜ëŠ”ì§€ ê²€ì‚¬
 bool IsInList(const State &s, const std::vector<State> &list)
 {
 	for (std::vector<State>::const_iterator it = list.begin(); it != list.end(); ++it) {
@@ -101,7 +101,7 @@ bool IsInList(const State &s, const std::vector<State> &list)
 	}
 	return false;
 }
-// list¿¡ ÀúÀåµÈ »óÅÂ Áß °¡Àå f°ªÀÌ ÀÛÀº »óÅÂ¸¦ Ã£¾Æ return
+// listì— ì €ì¥ëœ ìƒíƒœ ì¤‘ fê°’ì´ ê°€ì¥ ì‘ì€ ìƒíƒœë¥¼ ì°¾ì•„ return
 std::list<State>::iterator GetMinState(std::list<State> &list)
 {
 	std::list<State>::iterator minState = list.begin();
@@ -114,22 +114,22 @@ std::list<State>::iterator GetMinState(std::list<State> &list)
 	}
 	return minState;
 }
-int _tmain(int argc, _TCHAR* argv[])
+int main()
 {
-	// ÃÊ±â »óÅÂ
+	// ì´ˆê¸° ìƒíƒœ
 	State current(4, 1, 3, 0, 2, 6, 7, 5, 8);
 	//State current(4, 1, 3, 2, 6, 0, 7, 5, 8);
 	//State current(1, 4, 3, 0, 2, 6, 7, 5, 8);
 	current.Print();
 
-	// OPEN, CLOSE¸¦ »ı¼ºÇÏ°í, ÃÊ±â »óÅÂ´Â °ËÅä°¡ ³¡³µÀ¸´Ï CLOSE¿¡ ³Ö´Â´Ù.
+	// OPEN, CLOSEë¥¼ ìƒì„±í•˜ê³ , ì´ˆê¸° ìƒíƒœëŠ” ê²€í† ê°€ ëë‚«ìœ¼ë‹ˆ CLOSEì— ë„£ëŠ”ë‹¤.
 	std::list<State> OPEN;
 	std::vector<State> CLOSE;
 	CLOSE.push_back(current);
 
 	while (true)
 	{
-		// ¿òÁ÷ÀÏ ¼ö ÀÖ´Â ³× ¹æÇâÀ¸·Î ¿òÁ÷¿© º¸°í, ´ÙÀ½ »óÅÂ¸¦ »ı¼º
+		// ì›€ì§ì¼ ìˆ˜ ìˆëŠ” ë„¤ ë°©í–¥ìœ¼ë¡œ ì›€ì§ì—¬ ë³´ê³ , ë‹¤ìŒ ìƒíƒœë¥¼ ìƒì„±
 		for (int i = 0; i < 4; i++) {
 			State next;
 			bool isPossible = false;
@@ -143,46 +143,50 @@ int _tmain(int argc, _TCHAR* argv[])
 			case 3:
 				isPossible = current.DOWN(next); 	break;
 			}
-			// °æ°è ºÎºĞÀÌ¶ó ÀÌµ¿ÀÌ ºÒ°¡´ÉÇÏ¸é ¹«½Ã
+			// ê²½ê³„ ë¶€ë¶„ì´ë¼ ì´ë™ì´ ë¶ˆê°€ëŠ¥í•˜ë©´ ë¬´ì‹œ
 			if (isPossible == false)
 				continue;
 
-			// ÀÌµ¿ÇÑ »óÅÂ°¡ Á¤´äÀÌ¸é Ãâ·Â
+			// ì´ë™í•œ ìƒíƒœê°€ ì •ë‹µì´ë©´ ì¶œë ¥
 			if (next.CalcF() == 0) {
 				printf("found!\n");
 				next.Print();
 				int parent = CLOSE.size() - 1;
 				while (parent != -1) {
-					//CLOSE[parent].Print();
+					// ê²½ë¡œ ì¶œë ¥
+					// ìì‹ë“¤ì´ ë§Œë“¤ì–´ì¡Œì„ ë•Œ ìì‹ë“¤ì´ ë¶€ëª¨ë“¤ì„ ê¸°ì–µí•˜ê³  ìˆë‹¤ë©´,
+					// ìµœì¢…ë…¸ë“œê°€ ë‚˜ì™”ì„ ë•Œ ë¶€ëª¨ë¥¼ ì¶”ì í•˜ì—¬ ë£¨íŠ¸ë…¸ë“œê¹Œì§€ ì¶œë ¥í•˜ë©´
+					// ìµœì ì˜ ê²½ë¡œë¥¼ ì•Œ ìˆ˜ ìˆë‹¤.
+					CLOSE[parent].Print();
 					parent = CLOSE[parent]._parent;
 				}
-				exit(0);
+				return 0;
 			}
 
-			// ÀÌµ¿ÇÑ »óÅÂ°¡ ±âÁ¸¿¡ ¸¸µé¾îÁø »óÅÂÀÌ¸é ¹«½Ã
+			// ì´ë™í•œ ìƒíƒœê°€ ê¸°ì¡´ì— ë§Œë“¤ì–´ì§„ ìƒíƒœë©´ ë¬´ì‹œ
 			if (IsInList(next, OPEN) == true)
 				continue;
 			if (IsInList(next, CLOSE) == true)
 				continue;
 
-			// »õ·Î ¸¸µç »óÅÂ´Â ÇöÀç »óÅÂ¹øÈ£¸¦ ºÎ¸ğ·Î ±â¾ï
+			// ìƒˆë¡œ ë§Œë“  ìƒíƒœëŠ” í˜•ì¬ ìƒíƒœë²ˆí˜¸ë¥¼ ë¶€ëª¨ë¡œ ê¸°ì–µ
 			int current_id = CLOSE.size() - 1;
 			next._parent = current_id;
-			// »õ·Î ¸¸µç »óÅÂ¸¦ OPEN¿¡ Ãß°¡
+			// ìƒˆë¡œ ë§Œë“  ìƒíƒœë¥¼ OPENì§‘í•©ì— ì¶”ê°€
 			OPEN.push_back(next);
 		}
-		//ÇöÀç »óÈ² Ãâ·Â
+		//í˜„ì¬ ìƒí™© ì¶œë ¥
 		//printf("open = %d, close = %d\n", OPEN.size(), CLOSE.size());
 
-		// ¸¸¾à OPENÀÌ ºñ¾îÀÖÀ¸¸é ´õÀÌ»ó ²¨³¾ »óÅÂ°¡ ¾øÀ¸¹Ç·Î, ½ÇÆĞ·Î ÀÎÁ¤
+		// ë§Œì•½ OPENì´ ë¹„ì–´ìˆìœ¼ë©´ ë”ì´ìƒ êº¼ë‚¼ ìƒíƒœê°€ ì—†ìœ¼ë¯€ë¡œ, ì‹¤íŒ¨ë¡œ ì¸ì •
 		if (OPEN.size() == 0) {
 			printf("cannot find\n");
-			exit(0);
+			return 0;
 		}
-		// OPEN ¼Ò¼ÓÁß °¡Àå ¿ì¼öÇÑ »óÅÂ¸¦ ¼±Á¤
+		// OPEN ì†Œì†ì¤‘ ê°€ì¥ ìš°ìˆ˜í•œ ìƒíƒœë¥¼ ì„ ì •
 		std::list<State>::iterator minState = GetMinState(OPEN);
-		
-		// °¡Àå ¿ì¼öÇÑ »óÅÂ¸¦ ÇöÀç »óÅÂ·Î ÇÏ°í, OPEN¿¡¼­ Áö¿ì°í CLOSE¿¡ Ãß°¡
+
+		// ê°€ì¥ ìš°ìˆ˜í•œ ìƒíƒœë¥¼ í˜„ì¬ ìƒíƒœë¡œ í•˜ê³ , OPENì—ì„œ ì§€ìš°ê³  CLOSEì— ì¶”ê°€
 		current = *minState;
 		//printf("current node\n");
 		//current.Print();

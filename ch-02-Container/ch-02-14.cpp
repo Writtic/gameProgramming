@@ -31,7 +31,7 @@ int main( )
         cout << *iter << ' ';
     cout << endl << "===============" << endl;
 
-    lt1.sort( ); // 오름차순( less, < 연산) 정렬
+    lt1.sort(greater<int>()); // 오름차순( less, < 연산) 정렬
     cout << "lt1: ";
     for(iter = lt1.begin(); iter != lt1.end(); ++iter)
         cout << *iter << ' ';

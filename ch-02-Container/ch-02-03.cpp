@@ -21,7 +21,8 @@ int main()
 
 	if (iter == v.end()) // 100이 없으면 iter==v.end()임, 리턴값이 v.end()면 데이터가 없다는 뜻
 		// [begin, end) 이런 개념
-		cout << "100이 없음!" << endl;
+		// cout << "100이 없음!" << endl;
+		cout << "19.999999999999999이 없음!" << endl;
 	else
 		cout << *iter << endl;
 }

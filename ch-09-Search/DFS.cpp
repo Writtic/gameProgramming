@@ -1,27 +1,30 @@
 // DFS.cpp : Defines the entry point for the console application.
 //
 
-#include "stdafx.h"
 #include <set>
 #include <stack>
 #include <iostream>
+#define NOMINMAX
+#include <algorithm>
 using namespace std;
 
 class State {
 public:
+	int px, py; // 직전 상태를 기억
 	int x, y; // 4L, 3L
 public:
-	State() { x=0; y=0; };
-	State(int _x, int _y) { x=_x; y=_y; };
+	State() { x=0; y=0; px=0; py=0; };
+	State(int _x, int _y, int _px, int _py) { x=_x; y=_y; px=_px; py=_py;};
 	void Print() {
-		std::cout << x << " , " <<  y << endl;
+		std::cout << px << " , " <<  py << " -> "
+							<<  x << " , " <<   y << endl;
 	}
 	bool IsGoal() { return (x==2) && (y==0) ; }
 
-	void Fill4() { x=4;	};
-	void Empty4() { x=0; };
-	void Fill3() { y=3; };
-	void Empty3() { y=0; };
+	void Fill4() { px=x; py=y; x=4;	};
+	void Empty4() { px=x; py=y; x=0; };
+	void Fill3() { px=x; py=y; y=3; };
+	void Empty3() { px=x; py=y; y=0; };
 	void Move4to3() {
 		// 3리터 물통에 물의 여분이 얼마만큼 남았지?
 		int move = 3-y; // y=1 -> move=2
@@ -48,7 +51,7 @@ struct Pred
 	}
 };
 
-int _tmain(int argc, _TCHAR* argv[])
+int main()
 {
 	State start(0,0);
 	// 생각할 여지가 없는 CLOSE []이미 모든 처리가 끝난 쓰레기 처리장 CLOSE[]

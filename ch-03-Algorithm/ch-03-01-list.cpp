@@ -49,11 +49,11 @@ int main( )
     // list 는 주소이동을 정수를 더해 이동하면 너무 비싼연산이므로 ++, --로 처리.
     list<int>::iterator tmp = v2.begin();
     ++tmp; ++tmp; ++tmp;
-    for_each(v2.begin(), v2.begin(), Print);
+    for_each(v2.begin(), tmp, Print);
     cout << endl;
     tmp = v2.begin();
     ++tmp; ++tmp; ++tmp; ++tmp; ++tmp; ++tmp;
-    for_each(v2.begin(), v2.begin(), Print);
+    for_each(v2.begin(), tmp, Print);
     cout << endl;
     //[v.begin(), v.end()) 구간의 원소 출력
     for_each(v2.begin(), v2.end(), Print);

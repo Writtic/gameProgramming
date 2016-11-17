@@ -25,8 +25,9 @@ const Point operator* (int d, const Point& argR){
   return Point(d * argR.GetX(), d * argR.GetY());
 }
 // friend 함수를 이용한 방법
-// 위는 함수호출로 x, y를 받아옴. 
+// 위는 함수호출로 x, y를 받아옴.
 // 하지만 함수호출도 비용...
+// 그래서 내부변수를 직접 꺼내쓸 수 있는 friend 함수를 이용
 //const Point operator- (const Point& argL, const Point& argR)
 //{
 //    return Point( argL.x-argR.x, argL.y-argR.y );

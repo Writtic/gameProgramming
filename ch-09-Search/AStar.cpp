@@ -1,165 +1,244 @@
-#include <math.h>
-#include <set>
-#include <stack>
-#include <iostream>
-#include <algorithm>
-using namespace std;
+// Puzzle.cpp : Defines the entry point for the console application.
 
+#include <list>
+#include <vector>
+static int goal[9]={3,0,4,0,0,1,0,2};
 class State {
-	static const int sx=2, sy=3;
-	static const int ex=6, ey=3;
+private:
+	bool _i;
+	int white[2];
+	int black[2];
+	int _g, _h;
+	int _f; // cost = g + h;
+	int num[9];
 public:
-	int x, y;
-	int g,h;
-	int f; // cost = g + h;
-	int px, py; // ºÎ¸ğÀÇ x,yÁÂÇ¥;
-public:
-	State() { x=0; y=0; };
-	State(int _x, int _y) { x=_x; y=_y; };
-	void Print() {
-		std::cout << x << " , " <<  y << endl; 
-	}
-	bool IsStart() { return (x==sx) && (y==sy) ; }
-	bool IsGoal() { return (x==ex) && (y==ey) ; }
-	
-	void Move(int dx, int dy) {
-		px = x; py = y; // ¾îµğ¿¡¼­ ¿òÁ÷¿´´ÂÁö ÀÌÀüÁöÁ¡À» ÀúÀå
-		x += dx;
-		y += dy;
-		g += (int)sqrt(dx*dx*100.0 + dy*dy*100.0);
-		h = abs(x-ex)*10 + abs(y-ey)*10;
-		f = g + h;
-	}
-};
-struct Pred
-{
-	bool operator ()(State a, State b) {
-		if(a.x == b.x)
-			return a.y < b.y;
-		else
-			return a.x < b.x;
-	}
-};
-
-struct FVal
-{
-	bool operator() (State a, State b) {
-		if(a.f == b.f) {
-			if(a.x == b.x)
-				return a.y < b.y;
-			else
-				return a.x < b.x;
-		} else
-			return a.f < b.f;
-	}
-};
-
-struct PosEqual
-{
-	int x, y;
-	explicit PosEqual(int _x=0, int _y=0) { x=_x; y=_y; };
-	bool operator() (State a) {
-		return (a.x == x && a.y == y);
-	}
-};
-enum { LAND=0, WATER, START, END, ROAD, WALL=9 };
-
-void PrintMap(unsigned char map[7][9])
-{
-	for(int i=0; i<7; i++) {
-		for(int j=0; j<9; j++) {
-			char ch=' ';
-			switch(map[i][j]) {
-				case LAND: ch='.'; break;
-				case WATER: ch='W'; break;
-				case WALL:	ch=' '; break;
-				case START: ch='S'; break;
-				case END: ch='E'; break;
-				case ROAD: ch='@'; break;
-
-			}
-			printf("%c", ch);
+	int _parent;
+	State() {
+		int temp[9]={3,0,4,0,0,0,1,0,2};
+		for (int i=0; i < 9; i++) {
+			num[i] = temp[i];
 		}
-		printf("\n");
-	}
-}
-int _tmain(int argc, _TCHAR* argv[])
-{
-	// ÃÊ±â Áöµµ ¼³Á¤
-	unsigned char map[7][9] = {
-		{9,9,9,9,9,9,9,9,9},
-		{9,0,0,0,0,0,0,0,9},
-		{9,0,0,0,1,0,0,0,9},
-		{9,0,2,0,1,0,3,0,9},
-		{9,0,0,0,1,0,0,0,9},
-		{9,0,0,0,0,0,0,0,9},
-		{9,9,9,9,9,9,9,9,9}
+		white[0] = 6;
+		white[1] = 8;
+		black[0] = 0;
+		black[1] = 2;
+		// memcpy(num, temp, 9*sizeof(int));
+		_i = true;
+		_g = -1;
+		_h = -1;
+		_f = 9;
+		_parent = -1;
 	};
-	PrintMap(map);
+	State(int x1, int x2, int x3, int x4, int x5, int x6, int x7, int x8, int x9) {
+		num[0] = x1; num[1] = x2; num[2] = x3; num[3] = x4; num[4] = x5; num[5] = x6; num[6] = x7; num[7] = x8; num[8] = x9;
+		// int temp[9]={3,0,4,0,0,1,0,2};
+		// memcpy(goal, temp, 9*sizeof(int));
 
-	// Ãâ¹ßÁöÁ¡°ú »óÅÂ ÃÊ±âÈ­
-	State start(2,3);
-	set<State, Pred> CLOSE;
-	set<State, FVal> OPEN;
-	OPEN.insert(start);
-	// ±æÃ£±â ½ÃÀÛ
-	while(true) {
-		// Open Áß¿¡¼­ ¿ì¼öÇÑ ÁöÁ¡ ¼±ÅÃ
-		set<State,FVal>::iterator iter= OPEN.begin();
-		State current = *iter;
-		current.Print();
-		OPEN.erase(iter);
-		CLOSE.insert(current);
-		// ÇöÀç ÁöÁ¡¿¡¼­ ¾î´À ¹æÇâÀ¸·Î ÁøÇàÇÒ Áö °áÁ¤
-		for(int y=-1; y<=1; y++) {
-			for(int x=-1; x<=1; x++) {
-				if(x==0 && y==0) continue;
-				unsigned char mapinfo = map[current.y + y] [current.x + x];
-				if( mapinfo == WALL) continue;
-				if( mapinfo == WATER) continue;
-
-				State child = current;
-				child.Move(x,y);
-				if(child.IsGoal()) { // ¸ñÇ¥¿¡ µµ´ŞÇÑ °æ¿ì
-					cout << "°æ·Î Ãâ·Â" << endl;
-					child.Print();
-
-					set<State, Pred>::iterator path_iter = CLOSE.find(current);
-					// °æ·Î Ãâ·Â
-					State path = *path_iter;
-					while(  path.IsStart() == false)  {
-						map[path.y][path.x] = ROAD;
-						path.Print();
-						path = State(path.px, path.py);
-						path_iter = CLOSE.find(path);
-						path = *path_iter;
-					}
-					path.Print();
-					PrintMap(map);
-					exit(0);
-				}
-
-				// ÀÌ¹Ì ¹æ¹®ÇÑ °æ·Î´Â ¹«½Ã			
-				if ( CLOSE.end() != CLOSE.find( child ) )
-					continue; 
-
-				// ±âÁ¸ OPEN¿¡ ÀÖ´Â °æ·ÎÀÎÁö È®ÀÎ
-				PosEqual pos(child.x, child.y);
-				// find´Â x,y ÁÂÇ¥¸¸ ºñ±³
-				set<State, FVal>::iterator find_iter = find_if(OPEN.begin(), OPEN.end(), pos);
-
-				// ±âÁ¸¿¡ ¾ø´ø ÁöÁ¡ÀÌ¸é Ãß°¡
-				if( find_iter == OPEN.end()) { 
-					OPEN.insert(child);
-				} else { // ±âÁ¸¿¡ ÀÖ´ø ÁöÁ¡ÀÌ¸é ÇöÀç °æ·Î°¡ ´õ ÁÁÀº Áö¸§±æÀÎÁö È®ÀÎ
-					if(find_iter->f  >  child.f) { // ´õ ÁÁÀº ±æ ¹ß°ß
-						OPEN.erase(find_iter);
-						OPEN.insert(child);
-					}
-				}
-				
+		for (int i = 0; i < 9; i++) {
+			switch (num[i]) {
+			case 1:
+				white[0] = i; 	break;
+			case 2:
+				white[1] = i; 	break;
+			case 3:
+				black[0] = i; 	break;
+			case 4:
+				black[1] = i; 	break;
 			}
 		}
+
+		_i = true;
+		_g = -1;
+		_h = -1;
+		_f = -1;
+		_parent = -1;
+	}
+	void Print() {
+		for (int i = 0; i < 9; i++) {
+			char temp;
+			switch (num[i]) {
+			case 0:
+				temp = '.'; 	break;
+			case 1:
+				temp = 'O'; 	break;
+			case 2:
+				temp = 'O'; 	break;
+			case 3:
+				temp = 'X'; 	break;
+			case 4:
+				temp = 'X'; 	break;
+			}
+			printf("%c ", temp);
+			if ((i % 3) == 2)
+				printf("\n");
+		}
+	}
+	// 1,2,3,4,5,6,7,8,0 ìˆœì„œì—ì„œ ë²—ì–´ë‚ ë•Œ ë§ˆë‹¤ 1ì ì”© ì¶”ê°€ë¨
+	int CalcF() {
+		// í‰ê°€í•¨ìˆ˜
+		_f = 0;
+		for (int i = 0; i < 9; i++) {
+			if (goal[i] != num[i]) _f++;
+		}
+		return _f;
+	}
+	// ë‘ ê°œ ìƒíƒœì˜ ìˆ«ì ìˆœì„œê°€ ë™ì¼í•œì§€ íŒë‹¨
+	bool IsSame(const State &s) const {
+		for (int i = 0; i < 9; i++) {
+			if (num[i] != s.num[i])
+				return false;
+		}
+		return true;
+	}
+	// ì´ë™
+	bool MOVE1(State &res) {
+		if (_i) {
+			if ((res.white[0] % 2) == 1)
+				
+			_i = false;
+		} else {
+
+			_i = true;
+		}
+		res = *this;
+		res.num[_i] = res.num[_i - 3];
+		res.num[_i - 3] = 0;
+		return true;
+	}
+	bool DOWN(State &res) {
+		if (_i >= 6) return false;
+		res = *this;
+		res.num[_i] = res.num[_i + 3];
+		res.num[_i + 3] = 0;
+		res._i = _i + 3;
+		return true;
+	}
+	bool LEFT(State &res) {
+		if (_i % 3 == 0) return false;
+		res = *this;
+		res.num[_i] = res.num[_i - 1];
+		res.num[_i - 1] = 0;
+		res._i = _i - 1;
+		return true;
+	}
+	bool RIGHT(State &res) {
+		if (_i % 3 == 2) return false;
+		res = *this;
+		res.num[_i] = res.num[_i + 1];
+		res.num[_i + 1] = 0;
+		res._i = _i + 1;
+		return true;
+	}
+};
+// listì— ì´ë¯¸ ë™ì¼í•œ ìƒíƒœê°€ ì¡´ì¬í•˜ëŠ”ì§€ ê²€ì‚¬
+bool IsInList(const State &s, const std::list<State> &list)
+{
+	for (std::list<State>::const_iterator it = list.begin(); it != list.end(); ++it) {
+		if( s.IsSame(*it) == true)
+			return true;
+	}
+	return false;
+}
+// vectorì— ì´ë¯¸ ë™ì¼í•œ ìƒíƒœê°€ ì¡´ì¬í•˜ëŠ”ì§€ ê²€ì‚¬
+bool IsInList(const State &s, const std::vector<State> &list)
+{
+	for (std::vector<State>::const_iterator it = list.begin(); it != list.end(); ++it) {
+		if (s.IsSame(*it) == true)
+			return true;
+	}
+	return false;
+}
+// listì— ì €ì¥ëœ ìƒíƒœ ì¤‘ fê°’ì´ ê°€ì¥ ì‘ì€ ìƒíƒœë¥¼ ì°¾ì•„ return
+std::list<State>::iterator GetMinState(std::list<State> &list)
+{
+	std::list<State>::iterator minState = list.begin();
+	int minF = minState->CalcF();
+	for (std::list<State>::iterator it = list.begin(); it != list.end(); ++it) {
+		if (it->CalcF() < minF) {
+			minState = it;
+			minF = it->CalcF();
+		}
+	}
+	return minState;
+}
+int main()
+{
+	// ì´ˆê¸° ìƒíƒœ
+	State current(1, 0, 2, 0, 0, 0, 3, 0, 4);
+	//State current(4, 1, 3, 2, 6, 0, 7, 5, 8);
+	//State current(1, 4, 3, 0, 2, 6, 7, 5, 8);
+	current.Print();
+
+	// OPEN, CLOSEë¥¼ ìƒì„±í•˜ê³ , ì´ˆê¸° ìƒíƒœëŠ” ê²€í† ê°€ ëë‚«ìœ¼ë‹ˆ CLOSEì— ë„£ëŠ”ë‹¤.
+	std::list<State> OPEN;
+	std::vector<State> CLOSE;
+	CLOSE.push_back(current);
+
+	while (true)
+	{
+		// ì›€ì§ì¼ ìˆ˜ ìˆëŠ” ë„¤ ë°©í–¥ìœ¼ë¡œ ì›€ì§ì—¬ ë³´ê³ , ë‹¤ìŒ ìƒíƒœë¥¼ ìƒì„±
+		for (int i = 0; i < 4; i++) {
+			State next;
+			bool isPossible = false;
+			switch (i) {
+			case 0:
+				isPossible = current.LEFT(next); 	break;
+			case 1:
+				isPossible = current.RIGHT(next); 	break;
+			case 2:
+				isPossible = current.UP(next); 		break;
+			case 3:
+				isPossible = current.DOWN(next); 	break;
+			}
+			// ê²½ê³„ ë¶€ë¶„ì´ë¼ ì´ë™ì´ ë¶ˆê°€ëŠ¥í•˜ë©´ ë¬´ì‹œ
+			if (isPossible == false)
+				continue;
+
+			// ì´ë™í•œ ìƒíƒœê°€ ì •ë‹µì´ë©´ ì¶œë ¥
+			if (next.CalcF() == 0) {
+				printf("found!\n");
+				next.Print();
+				int parent = CLOSE.size() - 1;
+				while (parent != -1) {
+					// ê²½ë¡œ ì¶œë ¥
+					// ìì‹ë“¤ì´ ë§Œë“¤ì–´ì¡Œì„ ë•Œ ìì‹ë“¤ì´ ë¶€ëª¨ë“¤ì„ ê¸°ì–µí•˜ê³  ìˆë‹¤ë©´,
+					// ìµœì¢…ë…¸ë“œê°€ ë‚˜ì™”ì„ ë•Œ ë¶€ëª¨ë¥¼ ì¶”ì í•˜ì—¬ ë£¨íŠ¸ë…¸ë“œê¹Œì§€ ì¶œë ¥í•˜ë©´
+					// ìµœì ì˜ ê²½ë¡œë¥¼ ì•Œ ìˆ˜ ìˆë‹¤.
+					CLOSE[parent].Print();
+					parent = CLOSE[parent]._parent;
+				}
+				return 0;
+			}
+
+			// ì´ë™í•œ ìƒíƒœê°€ ê¸°ì¡´ì— ë§Œë“¤ì–´ì§„ ìƒíƒœë©´ ë¬´ì‹œ
+			if (IsInList(next, OPEN) == true)
+				continue;
+			if (IsInList(next, CLOSE) == true)
+				continue;
+
+			// ìƒˆë¡œ ë§Œë“  ìƒíƒœëŠ” í˜•ì¬ ìƒíƒœë²ˆí˜¸ë¥¼ ë¶€ëª¨ë¡œ ê¸°ì–µ
+			int current_id = CLOSE.size() - 1;
+			next._parent = current_id;
+			// ìƒˆë¡œ ë§Œë“  ìƒíƒœë¥¼ OPENì§‘í•©ì— ì¶”ê°€
+			OPEN.push_back(next);
+		}
+		//í˜„ì¬ ìƒí™© ì¶œë ¥
+		//printf("open = %d, close = %d\n", OPEN.size(), CLOSE.size());
+
+		// ë§Œì•½ OPENì´ ë¹„ì–´ìˆìœ¼ë©´ ë”ì´ìƒ êº¼ë‚¼ ìƒíƒœê°€ ì—†ìœ¼ë¯€ë¡œ, ì‹¤íŒ¨ë¡œ ì¸ì •
+		if (OPEN.size() == 0) {
+			printf("cannot find\n");
+			return 0;
+		}
+		// OPEN ì†Œì†ì¤‘ ê°€ì¥ ìš°ìˆ˜í•œ ìƒíƒœë¥¼ ì„ ì •
+		std::list<State>::iterator minState = GetMinState(OPEN);
+
+		// ê°€ì¥ ìš°ìˆ˜í•œ ìƒíƒœë¥¼ í˜„ì¬ ìƒíƒœë¡œ í•˜ê³ , OPENì—ì„œ ì§€ìš°ê³  CLOSEì— ì¶”ê°€
+		current = *minState;
+		//printf("current node\n");
+		//current.Print();
+		OPEN.erase(minState);
+		CLOSE.push_back(current);
 	}
 	return 0;
 }

@@ -20,7 +20,6 @@ int main(){
   // 펑션 포인터 컴파일 타임에 결정되지 않을 수 있음.
   // 무조건 컴파일타임에 결정이 됨.
   cout << func(3, 4) << endl;
-  cout <<
 }
 */
 // 클래스(객체)인데 함수처럼 동작하네??
@@ -40,8 +39,8 @@ int LessFun(int left, int right) // 2. 함수 조건자: 같은 기능을 하는
 
 int main()
 {
-  int (*LessPtr)(int,
-                  int) = LessFun; // 3. 함수 포인터 조건자 / 정적 함수 포인터 선언.
+  int (*LessPtr)(int, int) = LessFun; // 3. 함수 포인터 조건자 /
+  // 정적 함수 포인터 선언.
   LessFunctor lessFunctor; // 변수처럼 등록
 
   //모두 bool 형식을 반환
