@@ -9,13 +9,15 @@ public:
     Point(int _x =0 , int _y =0 ):x(_x),y(_y) { }
     void Print( )const { cout << x <<',' << y << endl; }
     // & 복사본이 아닌 원본
-    Point& operator++ ( ) // 전위 ++ : 나 자신을 리턴
+    // 전위 ++ : 나 자신을 리턴
+    Point& operator++( )
     {
         ++x;
         ++y;
         return *this; //내가 바뀐거니까 바뀐 나를 리턴
     }
-    Point operator++(int ) // 후위 ++ : 편법으로 위의 전위연산자와 구분, 뭔가 변수명을 써도 되긴 하는데 의미없음.
+    // 후위 ++ : 편법으로 위의 전위연산자와 구분, 뭔가 변수명을 써도 되긴 하는데 의미없음.
+    Point operator++(int )
     {
         // 자기자신을 변경하지 않고 임시변수를 만들어서 리턴
         Point pt(x, y);

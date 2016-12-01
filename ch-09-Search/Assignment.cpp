@@ -10,7 +10,7 @@ class State {
 	static const int sx=2, sy=3;
 	static const int ex=6, ey=3;
 public:
-	int x, y;
+	int x,y;
 	int g,h;
 	int f; // cost = g + h;
 	int px, py; // 부모의 x,y좌표;
@@ -65,36 +65,35 @@ struct PosEqual
 };
 enum { LAND=0, WATER, START, END, ROAD, WALL=9 };
 
-void PrintMap(unsigned char map[7][9])
+void PrintMap(int map[3][3])
 {
-	for(int i=0; i<7; i++) {
-		for(int j=0; j<9; j++) {
-			char ch=' ';
-			switch(map[i][j]) {
-				case LAND: ch='.'; break;
-				case WATER: ch='W'; break;
-				case WALL:	ch=' '; break;
-				case START: ch='S'; break;
-				case END: ch='E'; break;
-				case ROAD: ch='@'; break;
-
-			}
-			printf("%c", ch);
-		}
-		printf("\n");
-	}
+  for (int i = 0; i < 3; i++) {
+    for (int j = 0; j < 3; j++) {
+      char temp;
+      switch (map[i][j]) {
+      case 0:
+        temp = 'O'; 	break;
+      case 1:
+        temp = 'O'; 	break;
+      case 2:
+        temp = 'X'; 	break;
+      case 3:
+        temp = 'X'; 	break;
+      default:
+        temp = '.'; 	break;
+      }
+      printf("%c ", temp);
+    }
+    printf("\n");
+  }
 }
 int main()
 {
 	// 초기 지도 설정
-	unsigned char map[7][9] = {
-		{9,9,9,9,9,9,9,9,9},
-		{9,0,0,0,0,0,0,0,9},
-		{9,0,0,0,1,0,0,0,9},
-		{9,0,2,0,1,0,3,0,9},
-		{9,0,0,0,1,0,0,0,9},
-		{9,0,0,0,0,0,0,0,9},
-		{9,9,9,9,9,9,9,9,9}
+	int map[3][3] = {
+      { 0, -1,  1},
+      {-1, -1, -1},
+      { 2, -1,  3}
 	};
 	PrintMap(map);
 
